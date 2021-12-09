@@ -11,27 +11,27 @@ const PORT = process.env.PORT ?? 3000;
 const app = express();
 app.use(express.json());
 
-const corsOptions = {
-  origin: "*", // домен сервиса, с которого будут приниматься запросы
-  optionsSuccessStatus: 200, // для старых браузеров
-};
+// const corsOptions = {
+//   origin: "*", // домен сервиса, с которого будут приниматься запросы
+//   optionsSuccessStatus: 200, // для старых браузеров
+// };
 
-app.use(cors(corsOptions)); // если не указать corsOptions, то запросы смогут слать все запросы
+// app.use(cors(corsOptions)); // если не указать corsOptions, то запросы смогут слать все запросы
 
 // это всё код middleware
-// app.use((req, res, next) => {
-//   res.append("Access-Control-Allow-Origin", "*"); // разрешает принимать запросы со всех доменов
-//   res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE"); // какие методы в запросах разрешается принимать
-//   res.append(
-//     "Access-Control-Allow-Headers",
-//     "Origin, Content-Type"
-//     // "Content-Type" // X-Requested-With, Content-Type, Accept"
-//   );
-//   // res.append("Access-Control-Max-Age", "2");
-//   // res.append("Access-Control-Allow-Credentials", "true");
-//   //res.append("Vary", "Origin");
-//   next();
-// });
+app.use((req, res, next) => {
+  res.append("Access-Control-Allow-Origin", "*"); // разрешает принимать запросы со всех доменов
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE"); // какие методы в запросах разрешается принимать
+  res.append(
+    "Access-Control-Allow-Headers",
+    "Origin, Content-Type"
+    // "Content-Type" // X-Requested-With, Content-Type, Accept"
+  );
+  // res.append("Access-Control-Max-Age", "2");
+  // res.append("Access-Control-Allow-Credentials", "true");
+  //res.append("Vary", "Origin");
+  next();
+});
 
 //GET
 // app.get(servapi, (req, res) => {
