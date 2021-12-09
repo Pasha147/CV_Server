@@ -1,6 +1,6 @@
 const express = require("express");
 // const { request } = require("http");
-const cors = require("cors");
+// const cors = require("cors");
 const path = require("path");
 
 //const servapi = "https://myserverpf.herokuapp.com/api/data";
@@ -11,13 +11,14 @@ const PORT = process.env.PORT ?? 3000;
 const app = express();
 app.use(express.json());
 
-// const corsOptions = {
-//   origin: "*", // домен сервиса, с которого будут приниматься запросы
-//   optionsSuccessStatus: 200, // для старых браузеров
-// };
+/* //Позволяет обойти защиту cors
+ const corsOptions = {
+   origin: "*", // домен сервиса, с которого будут приниматься запросы
+   optionsSuccessStatus: 200, // для старых браузеров
+ };
 
-// app.use(cors(corsOptions)); // если не указать corsOptions, то запросы смогут слать все запросы
-
+ app.use(cors(corsOptions)); // если не указать corsOptions, то запросы смогут слать все запросы
+*/
 // это всё код middleware
 app.use((req, res, next) => {
   res.append("Access-Control-Allow-Origin", "*"); // разрешает принимать запросы со всех доменов

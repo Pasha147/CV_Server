@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /post_cors
+/09.12.2021
 /.pnp
 .pnp.js
 
