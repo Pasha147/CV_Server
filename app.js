@@ -3,6 +3,9 @@ const path = require("path");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
 const { sendFile } = require("express/lib/response");
+const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
+const res = require("express/lib/response");
 
 const servapi = "/api/data";
 
@@ -10,6 +13,21 @@ const PORT = process.env.PORT ?? 3000;
 
 const app = express();
 app.use(express.json());
+
+//=======Mongoose=====================
+const schema = new Schema({
+  name: { type: String, required: true },
+  date: { type: String, required: true },
+  text: { type: String, required: true },
+});
+const Mod = model("message", schema);
+
+async function saveToDb(name, date, text) {
+  const mod = new Mod({ name, date, text });
+  await mod.save();
+  // res.status(201).json({ message: "seved to db" });
+  // console.log(name, date, text);
+}
 
 //==========================================
 
@@ -70,11 +88,26 @@ app.post("/api/data/:id", (req, res) => {
       }
       console.log("Seved to file");
     });
+    const { name, date, text } = req.body;
+    saveToDb(name, date, text);
+    response = `The message from ${name} has been seved to db`;
   }
 
   res.status(200).json(response);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server has been started on port ${PORT}...`);
-});
+async function start() {
+  try {
+    url =
+      "mongodb+srv://Pasha147:P1471472v@cluster0.1pmrr.mongodb.net/cvmessages?retryWrites=true&w=majority";
+    await mongoose.connect(url, {});
+    app.listen(PORT, () => {
+      console.log(`Server has been started on port ${PORT}...`);
+    });
+  } catch (error) {
+    console.log("Server error", error.message);
+    process.exit(1);
+  }
+}
+
+start();
