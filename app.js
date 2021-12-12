@@ -15,11 +15,11 @@ const PORT = process.env.PORT ?? 3000;
 const app = express();
 app.use(express.json());
 
-const corsOptions = {
-  origin: "*", // домен сервиса, с которого будут приниматься запросы
-  optionsSuccessStatus: 200, // для старых браузеров
-};
-app.use(cors(corsOptions)); // если не указать corsOptions, то запросы смогут слать все запросы
+// const corsOptions = {
+//   origin: "*", // домен сервиса, с которого будут приниматься запросы
+//   optionsSuccessStatus: 200, // для старых браузеров
+// };
+// app.use(cors(corsOptions)); // если не указать corsOptions, то запросы смогут слать все запросы
 
 //=======Mongoose=====================
 const schema = new Schema({
@@ -69,13 +69,13 @@ async function sendF() {
 }
 
 // это всё код middleware
-// app.use((req, res, next) => {
-//   res.append("Access-Control-Allow-Origin", "*"); // разрешает принимать запросы со всех доменов
-//   res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE"); // какие методы в запросах разрешается принимать
-//   res.append("Access-Control-Allow-Headers", "Origin, Content-Type");
+app.use((req, res, next) => {
+  res.append("Access-Control-Allow-Origin", "*"); // разрешает принимать запросы со всех доменов
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE"); // какие методы в запросах разрешается принимать
+  res.append("Access-Control-Allow-Headers", "Origin, Content-Type");
 
-//   next();
-// });
+  next();
+});
 
 //POST
 app.post("/api/data/:id", (req, res) => {
